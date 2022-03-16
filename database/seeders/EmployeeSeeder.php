@@ -43,10 +43,9 @@ class EmployeeSeeder extends Seeder
         if ($level === 1) {
             return Employee::factory()->createOne();
         }
-
-        return Employee::factory()
-            ->for($this->createHierarchyLine(--$level), 'head')
-            ->create();
+        $employee = Employee::factory()->createOne();
+        $employee->appendToNode($this->createHierarchyLine(--$level))->save();
+        return $employee;
     }
 
 }

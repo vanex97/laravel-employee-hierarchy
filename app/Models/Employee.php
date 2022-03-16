@@ -2,36 +2,45 @@
 
 namespace App\Models;
 
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Kalnoy\Nestedset\NodeTrait;
 
 class Employee extends Model
 {
-    use HasFactory;
+    use HasFactory, NodeTrait;
 
-    public function position()
+    public const MAXIMUM_SUBORDINATION_LEVEL = 5;
+
+    public function position(): BelongsTo
     {
         return $this->belongsTo(Position::class);
     }
 
-    public function head()
+    public function getLftName(): string
     {
-        return $this->belongsTo(Employee::class, 'head_id');
+        return 'left';
     }
 
-    public function heads()
+    public function getRgtName(): string
     {
-        return $this->belongsTo(Employee::class, 'head_id')->with('head');
+        return 'right';
     }
 
-    public function subordinate()
+    public function getParentIdName(): string
     {
-        return $this->hasMany(Employee::class, 'head_id');
+        return 'head_id';
     }
 
-    public function subordinates()
+    /**
+     * Specify parent id attribute mutator.
+     * @throws Exception
+     */
+    public function setParentAttribute($value)
     {
-        return $this->hasOne(Employee::class, 'head_id')->with('subordinate');
+        $this->setParentIdAttribute($value);
     }
 
 }
