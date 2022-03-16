@@ -16,3 +16,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Auth::routes();
+
+Route::redirect('/', '/employees');
+
+Route::resource('employees', EmployeeController::class)
+    ->middleware('auth');
+
