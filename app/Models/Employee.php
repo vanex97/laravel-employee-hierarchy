@@ -12,6 +12,8 @@ class Employee extends Model
 {
     use HasFactory, NodeTrait;
 
+    protected $guarded = ['left', 'right'];
+
     public const MAXIMUM_SUBORDINATION_LEVEL = 5;
 
     public function position(): BelongsTo
