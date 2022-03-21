@@ -10,9 +10,21 @@
 // Select2 Bootstrap 4 theme
 @import "~@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.css";
 
+// Datatables Bootstrap 4 Theme
+@import "~datatables.net-bs4/css/dataTables.bootstrap4.css";
+
+// Customize employee form
 #phone_number-error {
     display: inline;
 }
 .card-footer button {
     width: 150px;
+}
+
+// Customize employee table
+#employee-table_wrapper .row:first-child  {
+    padding: 0.5rem 0.5rem 0 0.5rem;
+}
+#employee-table_wrapper .row:last-child  {
+    padding: 0 0.5rem 0.5rem 0.5rem;
 }

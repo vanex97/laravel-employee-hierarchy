@@ -24,11 +24,11 @@
 @endsection
 
 @section('js')
-    <script src="{{ mix('js/app.js') }}"></script>
+    <script src="{{ mix('js/admin.js') }}"></script>
     <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
     {{$dataTable->scripts()}}
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
-@stop
+    <link rel="stylesheet" href="{{ mix('css/admin.css') }}">
+@endsection
