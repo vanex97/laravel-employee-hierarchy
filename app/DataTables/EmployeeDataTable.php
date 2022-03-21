@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Employee;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTableAbstract;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
@@ -20,6 +21,9 @@ class EmployeeDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
+            ->addColumn('photo', function($employee) {
+                return asset($employee->photo);
+            })
             ->addColumn('action', function ($employee) {
                 $editRoute = route('employees.edit', $employee);
                 $deleteRoute = route('employees.destroy', $employee);
