@@ -26,18 +26,18 @@ class EmployeeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:2|max:256|unique:employees',
-            'employment_date' => 'required|date_format:d/m/y',
-            'phone_number' => 'required|phone:UA|unique:employees',
-            'email' => 'required|email|unique:employees',
-            'salary' => 'required|numeric|min:0|max:500000',
+            'name' => ['required', 'min:2', 'max:256', 'unique:employees'],
+            'employment_date' => ['required', 'date_format:d/m/y'],
+            'phone_number' => ['required', 'phone:UA', 'unique:employees'],
+            'email' => ['required', 'email', 'unique:employees'],
+            'salary' => ['required', 'numeric', 'min:0', 'max:500000'],
             'head' => [
-                'required',
+                'nullable',
                 'exists:employees,name',
                 new SubordinationLevel(Employee::MAXIMUM_SUBORDINATION_LEVEL)
             ],
-            'photo' => 'required|mimes:jpeg,jpg,png|required|max:5000',
-            'position_id' => 'required|exists:positions,id'
+            'photo' => ['required', 'mimes:jpeg,jpg,png', 'required', 'max:5000'],
+            'position_id' => ['required', 'exists:positions,id']
         ];
     }
 
