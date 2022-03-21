@@ -3,7 +3,10 @@
 @section('title', 'Employees')
 
 @section('content_header')
-    <h1>Employees</h1>
+    <div class="d-flex justify-content-between">
+        <h1>Employees</h1>
+        <a class="btn btn-primary" href="{{ route('employees.create') }}">Add employee</a>
+    </div>
 @endsection
 
 @section('content')
