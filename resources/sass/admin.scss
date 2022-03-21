@@ -1,0 +1,18 @@
+// JQueryUI
+@import '~jquery-ui/themes/base/all.css';
+
+// Tempusdominus bootstrap
+@import '~tempusdominus-bootstrap-4/src/sass/tempusdominus-bootstrap-4-build';
+
+// Select2
+@import "~select2/dist/css/select2.css";
+
+// Select2 Bootstrap 4 theme
+@import "~@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.css";
+
+#phone_number-error {
+    display: inline;
+}
+.card-footer button {
+    width: 150px;
+}
