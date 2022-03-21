@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\PositionController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +21,11 @@ Auth::routes();
 
 Route::redirect('/', '/employees');
 
-Route::resource('employees', EmployeeController::class)
-    ->middleware('auth');
+Route::get('employees/autocomplete', [EmployeeController::class, 'autocomplete'])
+    ->name('employees.autocomplete');
+
+Route::resource('employees', EmployeeController::class);
+
+Route::post('positions/autocomplete', [PositionController::class, 'autocomplete'])
+    ->name('positions.autocomplete');
 
