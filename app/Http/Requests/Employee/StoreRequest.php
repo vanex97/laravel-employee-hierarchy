@@ -27,7 +27,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'name' => ['required', 'min:2', 'max:256', 'unique:employees'],
-            'employment_date' => ['required', 'date_format:d/m/y'],
+            'employment_date' => ['required', 'date_format:d/m/y', 'after_or_equal:01/01/01'],
             'phone_number' => ['required', 'phone:UA', 'unique:employees'],
             'email' => ['required', 'email', 'unique:employees'],
             'salary' => ['required', 'numeric', 'min:0', 'max:500000'],
