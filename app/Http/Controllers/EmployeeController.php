@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\EmployeeDataTable;
-use App\Http\Requests\EmployeeRequest;
+use App\Http\Requests\Employee\StoreRequest;
+use App\Http\Requests\Employee\UpdateRequest;
 use App\Models\Employee;
+use App\Models\Position;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -30,14 +32,14 @@ class EmployeeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(EmployeeRequest $request)
+    public function store(StoreRequest $request)
     {
         $employee = new Employee();
         $employee->fill($request->except(['head', 'photo', 'phone_number']));
         $employee->phone_number = phone($request->phone_number, 'UA', 'international');
         $employee->photo = 'storage/'.$this->uploadEmployeePhoto($request);
 
-        if($request->has('head')) {
+        if($request->head) {
             $employee->appendToNode(Employee::where('name', $request->head)->first());
         }
 
@@ -59,25 +61,43 @@ class EmployeeController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Employee $employee)
     {
-        //
+
+        return view('employee.edit', [
+            'employee' => $employee,
+            'employeePositionName' => Position::find($employee->position_id)->name,
+            'employeeHeadName' => $employee->head_id ? Employee::find($employee->head_id)->name : null
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, Employee $employee)
     {
-        //
+        $employee->fill($request->except(['head', 'photo', 'phone_number']));
+        $employee->phone_number = phone($request->phone_number, 'UA', 'international');
+
+        // Update photo
+        if ($request->photo) {
+            $path = preg_filter('/^storage\//', '', $employee->photo);
+            if ($path) {
+                Storage::disk('public')->delete($path);
+            }
+            $employee->photo = 'storage/' . $this->uploadEmployeePhoto($request);
+        }
+        // Update head
+        if($request->head) {
+            $employee->appendToNode(Employee::where('name', $request->head)->first());
+        } else {
+            $employee->makeRoot();
+        }
+
+        $employee->save();
+
+        return redirect(route('employees.index'));
     }
 
     /**
