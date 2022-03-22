@@ -27,8 +27,10 @@ let $positionSelect = $('#position-select').select2({
 $("#head-input").autocomplete({
     source: function (request, response) {
         $.ajax({
+            type: "post",
             url: $('#head-input').attr('url'),
             data: {
+                _token: CSRF_TOKEN,
                 term: request.term
             },
             dataType: "json",

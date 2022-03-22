@@ -21,7 +21,7 @@ Auth::routes();
 
 Route::redirect('/', '/employees');
 
-Route::get('employees/autocomplete', [EmployeeController::class, 'autocomplete'])
+Route::post('employees/autocomplete', [EmployeeController::class, 'autocomplete'])
     ->name('employees.autocomplete')
     ->middleware('auth');
 
