@@ -127,6 +127,17 @@
                         <div class="invalid-feedback d-block">{{ $message }}</div>
                         @enderror
                     </div>
+
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p><strong>Created at: </strong>{{ date_format($employee->created_at, 'd.m.y') }}</p>
+                            <p><strong>Updated at: </strong>{{ date_format($employee->updated_at, 'd.m.y') }}</p>
+                        </div>
+                        <div class="pr-5">
+                            <p><strong>Admin created id: </strong>{{ $employee->admin_created_id }}</p>
+                            <p><strong>Admin updated id: </strong>{{ $employee->admin_updated_id }}</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="card-footer">
