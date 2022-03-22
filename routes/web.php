@@ -22,10 +22,12 @@ Auth::routes();
 Route::redirect('/', '/employees');
 
 Route::get('employees/autocomplete', [EmployeeController::class, 'autocomplete'])
-    ->name('employees.autocomplete');
+    ->name('employees.autocomplete')
+    ->middleware('auth');
 
-Route::resource('employees', EmployeeController::class);
+Route::resource('employees', EmployeeController::class)
+    ->middleware('auth');
 
 Route::post('positions/autocomplete', [PositionController::class, 'autocomplete'])
-    ->name('positions.autocomplete');
-
+    ->name('positions.autocomplete')
+    ->middleware('auth');
