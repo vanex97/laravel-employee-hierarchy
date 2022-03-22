@@ -93,7 +93,7 @@
                         <label>Salary, $</label>
                         <input type="text"
                                class="form-control @error('salary') is-invalid @enderror"
-                               value="{{ number_format(old('salary'), $employee->salary) || null }}"
+                               value="{{ number_format(old('salary', $employee->salary)) }}"
                                name="salary"
                                required>
                         @error('salary')
