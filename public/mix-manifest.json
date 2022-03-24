@@ -2,6 +2,7 @@
     "/js/app.js": "/js/app.js",
     "/js/admin.js": "/js/admin.js",
     "/js/employeeForm.js": "/js/employeeForm.js",
+    "/js/reEmploymentForm.js": "/js/reEmploymentForm.js",
     "/css/admin.css": "/css/admin.css",
     "/css/app.css": "/css/app.css"
 }

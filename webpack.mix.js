@@ -17,4 +17,5 @@ mix.js('resources/js/app.js', 'public/js')
 
 mix.js('resources/js/admin.js', 'public/js')
     .js('resources/js/employeeForm.js', 'public/js')
+    .js('resources/js/reEmploymentForm.js', 'public/js')
     .sass('resources/sass/admin.scss', 'public/css');
