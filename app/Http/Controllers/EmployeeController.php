@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\EmployeeDataTable;
+use App\Http\Requests\Employee\ReEmploymentRequest;
 use App\Http\Requests\Employee\StoreRequest;
 use App\Http\Requests\Employee\UpdateRequest;
 use App\Models\Employee;
@@ -67,7 +68,6 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
-
         return view('employee.edit', [
             'employee' => $employee,
             'employeePositionName' => Position::find($employee->position_id)->name,
@@ -107,13 +107,39 @@ class EmployeeController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Employee $employee)
     {
-        //
+        if ($employee->children->isEmpty()) {
+            $employee->delete();
+            return redirect(route('employees.index'));
+        }
+
+        return redirect(route('employees.reEmployment', $employee));
+    }
+
+    public function reEmployment(Employee $head)
+    {
+        $subordinates = $head->children;
+
+        return view('employee.re-employment', [
+            'employees' => $subordinates,
+            'head' => $head
+        ]);
+    }
+
+    public function destroyAndReEmployment(ReEmploymentRequest $request, Employee $head)
+    {
+        $reEmployments = $request->reEmployments;
+
+        foreach($reEmployments as $reEmployment) {
+            Employee::find($reEmployment['subordinate_id'])
+                ->appendToNode(Employee::where('name', $reEmployment['head'])->first())
+                ->save();
+        }
+        $head->delete();
+
+        return redirect(route('employees.index'));
     }
 
     public function autocomplete(Request $request)
