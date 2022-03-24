@@ -26,10 +26,16 @@ class EmployeeDataTable extends DataTable
             })
             ->addColumn('action', function ($employee) {
                 $editRoute = route('employees.edit', $employee);
-                $deleteRoute = route('employees.destroy', $employee);
                 return '<div class="text-nowrap">
-                             <a href="'.$editRoute.'" class="mr-4"><i class="fas fa-pencil-alt"></i></a>' .
-                            '<a href="'.$deleteRoute.'"><i class="fas fa-trash-alt"></i></a>
+                             <a class="btn btn-link" href="'.$editRoute.'" class="mr-4">
+                                <i class="fas fa-pencil-alt"></i>
+                             </a>' .
+                            '<button class="btn btn-link"
+                                     onclick="loadDeleteModal('.$employee->id.',`'.$employee->name.'`)"
+                                     data-toggle="modal"
+                                     data-target="#deleteModal">
+                                <i class="fas fa-trash-alt"></i>
+                            </>
                         </div>';
             })
             ->editColumn('employment_date', function ($employee) {
