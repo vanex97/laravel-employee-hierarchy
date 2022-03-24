@@ -24,6 +24,13 @@ Route::redirect('/', '/employees');
 Route::post('employees/autocomplete', [EmployeeController::class, 'autocomplete'])
     ->name('employees.autocomplete')
     ->middleware('auth');
+Route::get('employees/{head}/re-employment', [EmployeeController::class, 'reEmployment'])
+    ->name('employees.reEmployment')
+    ->middleware('auth');
+
+Route::delete('employees/{head}/re-employment', [EmployeeController::class, 'destroyAndReEmployment'])
+    ->name('employees.reEmploymentStore')
+    ->middleware('auth');
 
 Route::resource('employees', EmployeeController::class)
     ->middleware('auth');
