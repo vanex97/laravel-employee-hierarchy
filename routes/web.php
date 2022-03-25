@@ -19,22 +19,36 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+
 Route::redirect('/', '/employees');
 
-Route::post('employees/autocomplete', [EmployeeController::class, 'autocomplete'])
-    ->name('employees.autocomplete')
-    ->middleware('auth');
-Route::get('employees/{head}/re-employment', [EmployeeController::class, 'reEmployment'])
-    ->name('employees.reEmployment')
-    ->middleware('auth');
+Route::prefix('employees')->group(function() {
+    Route::middleware('auth')->group(function() {
+        Route::get('{head}/re-employment', [EmployeeController::class, 'reEmployment'])
+            ->name('employees.reEmployment');
 
-Route::delete('employees/{head}/re-employment', [EmployeeController::class, 'destroyAndReEmployment'])
-    ->name('employees.reEmploymentStore')
-    ->middleware('auth');
+        Route::delete('{head}/re-employment', [EmployeeController::class, 'destroyAndReEmployment'])
+            ->name('employees.reEmploymentStore');
 
-Route::resource('employees', EmployeeController::class)
-    ->middleware('auth');
+        Route::post('autocomplete', [EmployeeController::class, 'autocomplete'])
+            ->name('employees.autocomplete');
 
-Route::post('positions/autocomplete', [PositionController::class, 'autocomplete'])
-    ->name('positions.autocomplete')
-    ->middleware('auth');
+        Route::resource('', EmployeeController::class)
+            ->parameter('', 'employee')
+            ->names('employees');
+    });
+});
+
+Route::prefix('positions')->group(function () {
+
+    Route::middleware('auth')->group(function () {
+        Route::post('autocomplete', [PositionController::class, 'autocomplete'])
+            ->name('positions.autocomplete');
+
+        Route::resource('', PositionController::class)
+            ->parameter('', 'position')
+            ->names('positions');
+    });
+
+});
+
