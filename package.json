@@ -21,10 +21,11 @@
         "sass-loader": "^11.0.1"
     },
     "dependencies": {
+        "@ttskch/select2-bootstrap4-theme": "^1.5.2",
         "datatables.net-bs4": "^1.11.5",
+        "datatables.net-responsive-bs4": "^2.2.9",
         "moment": "^2.29.1",
         "select2": "^4.1.0-rc.0",
-        "@ttskch/select2-bootstrap4-theme": "^1.5.2",
         "tempusdominus-bootstrap-4": "^5.39.0"
     }
 }

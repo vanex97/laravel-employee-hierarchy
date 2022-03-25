@@ -7,4 +7,5 @@ import 'jquery-ui/ui/widgets/autocomplete.js';
 window.moment = require('moment')
 window.datetimepicker = require('tempusdominus-bootstrap-4');
 
-require( 'datatables.net-bs4' );
+require('datatables.net-bs4');
+require('datatables.net-responsive-bs4');
