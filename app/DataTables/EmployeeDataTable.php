@@ -86,7 +86,8 @@ class EmployeeDataTable extends DataTable
                     ->lengthChange(true)
                     ->addTableClass([' table-striped', 'compact']) //compact nowrap w-100
                     ->lengthMenu()
-                    ->autoWidth(false);
+                    ->autoWidth(false)
+                    ->responsive(true);
     }
 
     /**

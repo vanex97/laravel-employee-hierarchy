@@ -66,7 +66,8 @@ class PositionDataTable extends DataTable
             ->lengthChange(true)
             ->addTableClass([' table-striped', 'compact'])
             ->lengthMenu()
-            ->autoWidth(false);
+            ->autoWidth(false)
+            ->responsive(true);
     }
 
     /**

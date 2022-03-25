@@ -35,7 +35,7 @@
 @endsection
 
 @section('content')
-    <div class="border overflow-auto">
+    <div class="border">
         <h4 class="pt-2 pl-2">Employee list</h4>
         {{$dataTable->table()}}
     </div>
