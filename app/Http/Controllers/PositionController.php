@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\PositionDataTable;
 use App\Models\Position;
 use Illuminate\Http\Request;
 
 class PositionController extends Controller
 {
-    public function index(Request $request)
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(PositionDataTable $dataTable)
     {
-        //
+        return $dataTable->render('position.index');
     }
 
     /**
