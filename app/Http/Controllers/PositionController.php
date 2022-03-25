@@ -53,6 +53,15 @@ class PositionController extends Controller
     }
 
     /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Position $position)
+    {
+        $position->delete();
+        return redirect(route('positions.index'));
+    }
+
+    /**
      * Data for select2 input.
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
