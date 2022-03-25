@@ -12,7 +12,7 @@ class Employee extends Model
 {
     use HasFactory, NodeTrait;
 
-    protected $guarded = ['left', 'right'];
+    protected $fillable = ['name', 'email', 'position_id', 'salary', 'employment_date'];
 
     public const MAXIMUM_SUBORDINATION_LEVEL = 5;
 
