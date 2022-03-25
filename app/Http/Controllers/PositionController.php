@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\PositionDataTable;
 use App\Http\Requests\Position\StoreRequest;
+use App\Http\Requests\Position\UpdateRequest;
 use App\Models\Position;
 use Illuminate\Http\Request;
 
@@ -31,6 +32,23 @@ class PositionController extends Controller
     public function store(StoreRequest $request)
     {
         Position::create($request->validated());
+        return redirect(route('positions.index'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Position $position)
+    {
+        return view('position.edit', ['position' => $position]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateRequest $request, Position $position)
+    {
+        $position->update($request->validated());
         return redirect(route('positions.index'));
     }
 
