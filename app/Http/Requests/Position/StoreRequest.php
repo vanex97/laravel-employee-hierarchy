@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Position;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PositionRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class PositionRequest extends FormRequest
     public function rules()
     {
         return [
-                'name' => ['required', 'unique:positions', 'min:2', 'max:256']
+            'name' => ['required', 'unique:positions', 'min:2', 'max:256']
         ];
     }
 }
