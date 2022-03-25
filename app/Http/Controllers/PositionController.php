@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\PositionDataTable;
+use App\Http\Requests\PositionRequest;
 use App\Models\Position;
 use Illuminate\Http\Request;
 
@@ -14,6 +15,23 @@ class PositionController extends Controller
     public function index(PositionDataTable $dataTable)
     {
         return $dataTable->render('position.index');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('position.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(PositionRequest $request)
+    {
+        Position::create($request->validated());
+        return redirect(route('positions.index'));
     }
 
     /**
