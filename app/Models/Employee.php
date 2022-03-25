@@ -45,4 +45,16 @@ class Employee extends Model
         $this->setParentIdAttribute($value);
     }
 
+    protected static function booted()
+    {
+        static::creating(function($employee) {
+            $employee->admin_created_id = auth()->user()->id;
+            $employee->admin_updated_id = auth()->user()->id;
+        });
+
+        static::updating(function($employee) {
+            $employee->admin_updated_id = auth()->user()->id;
+        });
+    }
+
 }

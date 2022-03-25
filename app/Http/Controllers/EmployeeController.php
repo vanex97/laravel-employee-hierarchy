@@ -44,9 +44,6 @@ class EmployeeController extends Controller
             $employee->appendToNode(Employee::where('name', $request->head)->first());
         }
 
-        $employee->admin_created_id = auth()->user()->id;
-        $employee->admin_updated_id = auth()->user()->id;
-
         $employee->save();
 
         return redirect(route('employees.index'));
@@ -97,8 +94,6 @@ class EmployeeController extends Controller
         } else {
             $employee->makeRoot();
         }
-
-        $employee->admin_updated_id = auth()->user()->id;
 
         $employee->save();
 
