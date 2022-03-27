@@ -4,6 +4,7 @@ namespace App\Http\Requests\Employee;
 
 use App\Models\Employee;
 use App\Rules\SubordinationLevel;
+use App\Rules\UniqueFormatPhone;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -37,7 +38,12 @@ class UpdateRequest extends FormRequest
             'phone_number' => [
                 'required',
                 'phone:UA',
-                Rule::unique('employees')->ignore($this->employee->id)
+                new UniqueFormatPhone(
+                    'employees',
+                    'UA',
+                    'international',
+                    $this->employee->id
+                )
             ],
             'email' => [
                 'required',

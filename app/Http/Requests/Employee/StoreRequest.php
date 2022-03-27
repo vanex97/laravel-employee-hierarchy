@@ -4,7 +4,9 @@ namespace App\Http\Requests\Employee;
 
 use App\Models\Employee;
 use App\Rules\SubordinationLevel;
+use App\Rules\UniqueFormatPhone;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Unique;
 
 class StoreRequest extends FormRequest
 {
@@ -28,7 +30,11 @@ class StoreRequest extends FormRequest
         return [
             'name' => ['required', 'min:2', 'max:256', 'unique:employees'],
             'employment_date' => ['required', 'date_format:d/m/y', 'after_or_equal:01/01/01'],
-            'phone_number' => ['required', 'phone:UA', 'unique:employees'],
+            'phone_number' => [
+                'required',
+                'phone:UA',
+                new UniqueFormatPhone('employees', 'UA', 'international')
+            ],
             'email' => ['required', 'email', 'unique:employees'],
             'salary' => ['required', 'numeric', 'min:0', 'max:500000'],
             'head' => [
