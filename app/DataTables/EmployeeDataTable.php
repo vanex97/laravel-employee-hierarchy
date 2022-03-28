@@ -4,7 +4,6 @@ namespace App\DataTables;
 
 use App\Models\Employee;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTableAbstract;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
@@ -26,8 +25,12 @@ class EmployeeDataTable extends DataTable
             })
             ->addColumn('action', function ($employee) {
                 $editRoute = route('employees.edit', $employee);
+                $showRoute = route('employees.show', $employee);
                 return '<div class="text-nowrap">
-                             <a class="btn btn-link" href="'.$editRoute.'" class="mr-4">
+                            <a class="btn btn-link" href="'.$showRoute.'" class="mr-2">
+                                <i class="far fa-eye"></i>
+                            </a>
+                             <a class="btn btn-link" href="'.$editRoute.'" class="mr-2">
                                 <i class="fas fa-pencil-alt"></i>
                              </a>' .
                             '<button class="btn btn-link"
@@ -35,7 +38,7 @@ class EmployeeDataTable extends DataTable
                                      data-toggle="modal"
                                      data-target="#deleteModal">
                                 <i class="fas fa-trash-alt"></i>
-                            </>
+                            </button>
                         </div>';
             })
             ->editColumn('employment_date', function ($employee) {
