@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\EmployeeDataTable;
+use App\DataTables\SubordinatesDataTable;
 use App\Http\Requests\Employee\ReEmploymentRequest;
 use App\Http\Requests\Employee\StoreRequest;
 use App\Http\Requests\Employee\UpdateRequest;
@@ -51,13 +52,11 @@ class EmployeeController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Employee $employee, SubordinatesDataTable $dataTable)
     {
-        //
+        $dataTable->setHead($employee);
+        return $dataTable->render('employee.show', ['employee' => $employee]);
     }
 
     /**
