@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\EmployeeTreeController;
 use App\Http\Controllers\PositionController;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -49,6 +49,16 @@ Route::prefix('positions')->group(function () {
             ->parameter('', 'position')
             ->names('positions');
     });
+});
 
+Route::prefix('hierarchy')->group(function() {
+    Route::get('', [EmployeeTreeController::class, 'index'])
+        ->name('hierarchy.index');
+
+    Route::get('{root}', [EmployeeTreeController::class, 'show'])
+        ->name('hierarchy.show');
+
+    Route::post('{root}', [EmployeeTreeController::class, 'getData'])
+        ->name('hierarchy.data');
 });
 
