@@ -227,6 +227,11 @@ return [
     'menu' => [
         // Navbar items:
         [
+            'text' => 'Hierarchy',
+            'url' => 'hierarchy',
+            'icon' => 'fas fa-sitemap'
+        ],
+        [
             'text' => 'Employees',
             'url'  => 'employees',
             'icon' => 'fas fa-users',
