@@ -3,6 +3,7 @@
     "/js/admin.js": "/js/admin.js",
     "/js/employeeForm.js": "/js/employeeForm.js",
     "/js/reEmploymentForm.js": "/js/reEmploymentForm.js",
+    "/js/employeeTree.js": "/js/employeeTree.js",
     "/css/admin.css": "/css/admin.css",
     "/css/app.css": "/css/app.css"
 }
