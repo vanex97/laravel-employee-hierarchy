@@ -26,7 +26,7 @@ class ReEmploymentRequest extends FormRequest
     public function rules()
     {
         return [
-            'reEmployments.*.head_name' => [
+            'reEmployments.*.head' => [
                 'nullable',
                 'exists:employees,name',
                 new SubordinationLevel(Employee::MAXIMUM_SUBORDINATION_LEVEL)
@@ -37,7 +37,7 @@ class ReEmploymentRequest extends FormRequest
     public function messages()
     {
         return [
-            'reEmployments.*.head_name.exists' => 'The selected head name is invalid.'
+            'reEmployments.*.head.exists' => 'The selected head name is invalid.'
         ];
     }
 }
