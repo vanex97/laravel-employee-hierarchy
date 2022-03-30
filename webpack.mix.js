@@ -16,7 +16,7 @@ mix.js('resources/js/app.js', 'public/js')
     .sourceMaps();
 
 mix.js('resources/js/admin.js', 'public/js')
-    .js('resources/js/employeeForm.js', 'public/js')
-    .js('resources/js/reEmploymentForm.js', 'public/js')
-    .js('resources/js/employeeTree.js', 'public/js')
+    .js('resources/js/employee/employeeForm.js', 'public/js')
+    .js('resources/js/employee/reEmploymentForm.js', 'public/js')
+    .js('resources/js/employee/employeeTree.js', 'public/js')
     .sass('resources/sass/admin.scss', 'public/css');
