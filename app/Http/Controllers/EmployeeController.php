@@ -127,6 +127,9 @@ class EmployeeController extends Controller
         $reEmployments = $request->reEmployments;
 
         foreach($reEmployments as $reEmployment) {
+            if ($reEmployment['head'] === null) {
+                continue;
+            }
             Employee::find($reEmployment['subordinate_id'])
                 ->appendToNode(Employee::where('name', $reEmployment['head'])->first())
                 ->save();
