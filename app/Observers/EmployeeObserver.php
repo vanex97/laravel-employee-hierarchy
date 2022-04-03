@@ -7,13 +7,12 @@ use App\Models\Employee;
 class EmployeeObserver
 {
     /**
-     * @param  \App\Models\Employee  $employee
+     * @param  Employee  $employee
      * @return void
      */
     public function creating(Employee $employee)
     {
-        $employee->admin_created_id = auth()->user()->id;
-        $employee->admin_updated_id = auth()->user()->id;
+        $this->setCreatedAdmin($employee);
         $this->setPhone($employee);
     }
 
@@ -22,12 +21,16 @@ class EmployeeObserver
      */
     public function updating(Employee $employee)
     {
-        $employee->admin_updated_id = auth()->user()->id;
+        $this->setUpdatedAdmin($employee);
         $this->setPhone($employee);
     }
 
+    public function deleting(Employee $employee)
+    {
+        $employee->image()->delete();
+    }
+
     /**
-     *
      * @param Employee $employee
      */
     protected function setPhone(Employee $employee)
@@ -36,6 +39,23 @@ class EmployeeObserver
             $employee->phone_number =
                 phone($employee->phone_number, 'UA', 'international');
         }
+    }
+
+    /**
+     * @param Employee $employee
+     */
+    protected function setCreatedAdmin(Employee $employee)
+    {
+        $employee->admin_created_id = auth()->user()->id ?? Employee::UNKNOWN_USER;
+        $this->setUpdatedAdmin($employee);
+    }
+
+    /**
+     * @param Employee $employee
+     */
+    protected function setUpdatedAdmin(Employee $employee)
+    {
+        $employee->admin_updated_id = auth()->user()->id ?? Employee::UNKNOWN_USER;
     }
 
 }
