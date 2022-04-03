@@ -22,6 +22,7 @@ class Employee extends Model
         'employment_date'
     ];
 
+    public const UNKNOWN_USER = 0;
 
     public const MAXIMUM_SUBORDINATION_LEVEL = 5;
 
