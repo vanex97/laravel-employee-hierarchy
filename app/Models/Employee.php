@@ -12,7 +12,16 @@ class Employee extends Model
 {
     use HasFactory, NodeTrait;
 
-    protected $fillable = ['name', 'email', 'position_id', 'salary', 'employment_date'];
+    protected $fillable = [
+        'name',
+        'email',
+        'position_id',
+        'image_id',
+        'phone_number',
+        'salary',
+        'employment_date'
+    ];
+
 
     public const MAXIMUM_SUBORDINATION_LEVEL = 5;
 
@@ -50,17 +59,16 @@ class Employee extends Model
         $this->setParentIdAttribute($value);
     }
 
-    protected static function booted()
+    /**
+     * @param int|null $headId
+     */
+    public function updateHeadOrMakeRoot(int $headId = null)
     {
-        static::creating(function($employee) {
-            $employee->admin_created_id = auth()->user()->id;
-            $employee->admin_updated_id = auth()->user()->id;
-        });
-
-        static::updating(function($employee) {
-            $employee->admin_updated_id = auth()->user()->id;
-        });
+        if ($headId) {
+            $this->appendToNode(Employee::where('name', $headId)->first());
+        } else {
+            $this->makeRoot();
+        }
     }
-
 
 }
