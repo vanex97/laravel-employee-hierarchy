@@ -17,6 +17,6 @@ class DatabaseSeeder extends Seeder
     {
         Position::factory(10)->create();
 
-        $this->call([EmployeeSeeder::class]);
+        $this->call([EmployeeTreeSeeder::class]);
     }
 }
