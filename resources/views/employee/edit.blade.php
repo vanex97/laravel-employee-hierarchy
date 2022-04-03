@@ -21,7 +21,7 @@
                     <div class="form-group">
                         <label class="mb-0">Photo</label>
                         <p class="mb-3">
-                            <img src="{{ asset($employee->photo) }}" alt="employee_photo" style="width: 90px">
+                            <img src="{{ asset($employee->image->url) }}" alt="employee_photo" style="width: 90px">
                         </p>
                         @error('photo')
                         <div class="invalid-feedback d-block mb-1">{{ $message }}</div>

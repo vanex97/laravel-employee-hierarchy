@@ -14,7 +14,7 @@ class EmployeeTreeResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'photo' => asset($this->photo),
+            'photo' => $this->image->url,
             'parentId' => $this->head_id,
             'position' => $this->position->name,
             'profileUrl' => route('employees.show', $this)

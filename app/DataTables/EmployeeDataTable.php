@@ -20,9 +20,6 @@ class EmployeeDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('photo', function($employee) {
-                return asset($employee->photo);
-            })
             ->addColumn('action', function ($employee) {
                 $editRoute = route('employees.edit', $employee);
                 $showRoute = route('employees.show', $employee);
@@ -60,10 +57,15 @@ class EmployeeDataTable extends DataTable
      */
     public function query(Employee $model): Builder
     {
-        return $model::join('positions', 'employees.position_id', '=', 'positions.id')
+        return $model::join(
+                'positions', 'employees.position_id', '=', 'positions.id',
+            )
+            ->join(
+                'images', 'employees.image_id', '=', 'images.id'
+            )
             ->select([
                 'employees.id',
-                'employees.photo',
+                'images.url as photo',
                 'employees.name',
                 'positions.name as position_name',
                 'employees.employment_date',

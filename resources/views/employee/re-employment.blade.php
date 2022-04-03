@@ -37,7 +37,7 @@
                                 @foreach($employees as $employee)
                                     <tr class="odd">
                                         <td><img class="img-circle img-size-32"
-                                                 src="{{ asset($employee->photo) }}" alt="photo">
+                                                 src="{{ asset($employee->image->url) }}" alt="photo">
                                         </td>
                                         <td>{{ $employee->name }}</td>
                                         <td>{{ $employee->position->name }}</td>
