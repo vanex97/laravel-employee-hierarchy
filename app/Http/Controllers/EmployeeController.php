@@ -132,6 +132,7 @@ class EmployeeController extends Controller
 
             if ($reEmployment['head'] === null) {
                 Cloudinary::destroy($employee->image->public_id);
+                $employee->delete();
                 continue;
             }
             $employee->appendToNode(Employee::where('name', $reEmployment['head'])->first())
