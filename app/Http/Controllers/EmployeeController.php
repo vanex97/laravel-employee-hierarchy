@@ -8,10 +8,10 @@ use App\Http\Requests\Employee\ReEmploymentRequest;
 use App\Http\Requests\Employee\StoreRequest;
 use App\Http\Requests\Employee\UpdateRequest;
 use App\Models\Employee;
+use App\Models\Image;
 use App\Models\Position;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
 
 class EmployeeController extends Controller
 {
@@ -39,11 +39,18 @@ class EmployeeController extends Controller
         $employee = new Employee();
         $employee->fill($request->except(['head', 'photo', 'phone_number']));
         $employee->phone_number = phone($request->phone_number, 'UA', 'international');
-        $employee->photo = 'storage/'.$this->uploadEmployeePhoto($request);
 
         if($request->head) {
             $employee->appendToNode(Employee::where('name', $request->head)->first());
         }
+
+        $uploadedPhoto = Cloudinary::upload(
+            Image::formatForEmployeePhoto($request->file('photo'))
+        );
+        $employee->image()->associate(Image::create([
+            'public_id' => $uploadedPhoto->getPublicId(),
+            'url' => $uploadedPhoto->getSecurePath()
+        ]));
 
         $employee->save();
 
@@ -79,19 +86,24 @@ class EmployeeController extends Controller
         $employee->fill($request->except(['head', 'photo', 'phone_number']));
         $employee->phone_number = phone($request->phone_number, 'UA', 'international');
 
-        // Update photo
-        if ($request->photo) {
-            $path = preg_filter('/^storage\//', '', $employee->photo);
-            if ($path) {
-                Storage::disk('public')->delete($path);
-            }
-            $employee->photo = 'storage/' . $this->uploadEmployeePhoto($request);
-        }
         // Update head
         if($request->head) {
             $employee->appendToNode(Employee::where('name', $request->head)->first());
         } else {
             $employee->makeRoot();
+        }
+
+        // Update photo
+        if ($request->hasFile('photo')) {
+            Cloudinary::destroy($employee->image->public_id);
+
+            $uploadedPhoto = Cloudinary::upload(
+                Image::formatForEmployeePhoto($request->file('photo'))
+            );
+            $employee->image->update([
+                'public_id' => $uploadedPhoto->getPublicId(),
+                'url' => $uploadedPhoto->getSecurePath()
+            ]);
         }
 
         $employee->save();
@@ -105,6 +117,7 @@ class EmployeeController extends Controller
     public function destroy(Employee $employee)
     {
         if ($employee->children->isEmpty()) {
+            Cloudinary::destroy($employee->image->public_id);
             $employee->delete();
             return redirect(route('employees.index'));
         }
@@ -127,13 +140,16 @@ class EmployeeController extends Controller
         $reEmployments = $request->reEmployments;
 
         foreach($reEmployments as $reEmployment) {
+            $employee = Employee::find($reEmployment['subordinate_id']);
+
             if ($reEmployment['head'] === null) {
+                Cloudinary::destroy($employee->image->public_id);
                 continue;
             }
-            Employee::find($reEmployment['subordinate_id'])
-                ->appendToNode(Employee::where('name', $reEmployment['head'])->first())
+            $employee->appendToNode(Employee::where('name', $reEmployment['head'])->first())
                 ->save();
         }
+        Cloudinary::destroy($head->image->public_id);
         $head->delete();
 
         return redirect(route('employees.index'));
@@ -147,22 +163,5 @@ class EmployeeController extends Controller
             ->limit(5)
             ->get();
         return response()->json($filterResult);
-    }
-
-    /**
-     * @param Request $request
-     * @return string Image path
-     */
-    private function uploadEmployeePhoto(Request $request)
-    {
-        $image = Image::make($request->file('photo'))
-            ->fit(300, 300)
-            ->orientate()
-            ->stream('jpg', 80);
-
-        $imagePath = 'employee_photos/'.uniqid().'.jpg';
-        Storage::disk('public')->put($imagePath, $image);
-
-        return $imagePath;
     }
 }
