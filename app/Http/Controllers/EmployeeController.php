@@ -36,24 +36,19 @@ class EmployeeController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $employee = new Employee();
-        $employee->fill($request->except(['head', 'photo', 'phone_number']));
-        $employee->phone_number = phone($request->phone_number, 'UA', 'international');
-
-        if($request->head) {
-            $employee->appendToNode(Employee::where('name', $request->head)->first());
-        }
-
         $uploadedPhoto = Cloudinary::upload(
             Image::formatForEmployeePhoto($request->file('photo'))
         );
-        $employee->image()->associate(Image::create([
+        $employeePhoto = Image::create([
             'public_id' => $uploadedPhoto->getPublicId(),
             'url' => $uploadedPhoto->getSecurePath()
-        ]));
+        ]);
+        $request->request->add(['image_id' => $employeePhoto->id]);
 
-        $employee->save();
-
+        Employee::create(
+            $request->except(['head', 'photo']),
+            Employee::where('name', $request->head)->first()
+        );
         return redirect(route('employees.index'));
     }
 
@@ -83,16 +78,6 @@ class EmployeeController extends Controller
      */
     public function update(UpdateRequest $request, Employee $employee)
     {
-        $employee->fill($request->except(['head', 'photo', 'phone_number']));
-        $employee->phone_number = phone($request->phone_number, 'UA', 'international');
-
-        // Update head
-        if($request->head) {
-            $employee->appendToNode(Employee::where('name', $request->head)->first());
-        } else {
-            $employee->makeRoot();
-        }
-
         // Update photo
         if ($request->hasFile('photo')) {
             Cloudinary::destroy($employee->image->public_id);
@@ -106,7 +91,10 @@ class EmployeeController extends Controller
             ]);
         }
 
-        $employee->save();
+        if ($request->has('head')) {
+            $employee->updateHeadOrMakeRoot($request->head);
+        }
+        $employee->update($request->except(['photo', 'head']));
 
         return redirect(route('employees.index'));
     }
@@ -149,6 +137,7 @@ class EmployeeController extends Controller
             $employee->appendToNode(Employee::where('name', $reEmployment['head'])->first())
                 ->save();
         }
+
         Cloudinary::destroy($head->image->public_id);
         $head->delete();
 
