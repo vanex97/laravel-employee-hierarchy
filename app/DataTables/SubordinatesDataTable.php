@@ -11,7 +11,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class SubordinatesDataTable extends DataTable
 {
-    public ?Employee $head = null;
+    public $head = null;
 
     /**
      * Build DataTable class.
@@ -23,9 +23,6 @@ class SubordinatesDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('photo', function($employee) {
-                return asset($employee->photo);
-            })
             ->editColumn('employment_date', function ($employee) {
                 return date('d.m.y', strtotime($employee->employment_date));
             })
@@ -55,9 +52,12 @@ class SubordinatesDataTable extends DataTable
     public function query(Employee $model): Builder
     {
         return $model::join('positions', 'employees.position_id', '=', 'positions.id')
+            ->join(
+                'images', 'employees.image_id', '=', 'images.id'
+            )
             ->select([
                 'employees.id',
-                'employees.photo',
+                'images.url as photo',
                 'employees.name',
                 'positions.name as position_name',
                 'employees.employment_date',
