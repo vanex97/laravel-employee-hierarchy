@@ -21,6 +21,11 @@ class Employee extends Model
         return $this->belongsTo(Position::class);
     }
 
+    public function image(): BelongsTo
+    {
+        return $this->belongsTo(Image::class);
+    }
+
     public function getLftName(): string
     {
         return 'left';
@@ -56,5 +61,6 @@ class Employee extends Model
             $employee->admin_updated_id = auth()->user()->id;
         });
     }
+
 
 }
