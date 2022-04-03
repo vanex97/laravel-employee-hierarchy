@@ -14,7 +14,7 @@
                 <div class="card-body box-profile">
                     <div class="text-center">
                         <img class="profile-user-img img-fluid img-circle"
-                             src="{{ asset($root->photo) }}"
+                             src="{{ asset($root->image->url) }}"
                              alt="User profile picture">
                     </div>
                     <h3 class="profile-username text-center">{{ $root->name }}</h3>
