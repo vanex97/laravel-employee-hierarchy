@@ -29,8 +29,8 @@ class Employee extends Model
     /**
      * Supported countries in ISO 3166-1 alpha-2 compliant format.
      */
-    public const PHONE_COUNTRIES = ['UA'];
-    
+    public const PHONE_COUNTRIES = ['US'];
+
     public const PHONE_FORMAT = 'international';
 
     public function position(): BelongsTo

@@ -19,7 +19,7 @@ class EmployeeFactory extends Factory
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'position_id' => Position::get()->random()->id,
-            'phone_number' => $this->faker->unique()->numerify('+38063#######'),
+            'phone_number' => $this->faker->phoneNumber,
             'salary' => $this->faker->numberBetween(0,500000),
             'image_id' => Image::factory(),
             'employment_date' => $this->faker->dateTimeBetween('-10 years')
