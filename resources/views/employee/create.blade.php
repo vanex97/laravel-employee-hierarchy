@@ -53,9 +53,15 @@
                         @error('phone_number')
                         <div class="invalid-feedback d-inline">{{ $message }}</div>
                         @enderror
-                        <small class="form-text text-muted float-right">
-                            Required format +380 (xx) XXXX XX XX
-                        </small>
+                        @if (count($supportedPhoneCountries) === 1)
+                            <small class="form-text text-muted float-right">
+                                Supported country: {{ implode(', ', $supportedPhoneCountries) }}
+                            </small>
+                        @elseif (count($supportedPhoneCountries) > 1)
+                            <small class="form-text text-muted float-right">
+                                Supported countries: {{ implode(', ', $supportedPhoneCountries) }}
+                            </small>
+                        @endif
                     </div>
 
                     <div class="form-group">

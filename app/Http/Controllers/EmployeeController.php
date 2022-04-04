@@ -28,7 +28,9 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        return view('employee.create');
+        return view('employee.create', [
+            'supportedPhoneCountries' => Employee::PHONE_COUNTRIES
+        ]);
     }
 
     /**
@@ -69,7 +71,8 @@ class EmployeeController extends Controller
         return view('employee.edit', [
             'employee' => $employee,
             'employeePositionName' => Position::find($employee->position_id)->name,
-            'employeeHeadName' => $employee->head_id ? Employee::find($employee->head_id)->name : null
+            'employeeHeadName' => $employee->head_id ? Employee::find($employee->head_id)->name : null,
+            'supportedPhoneCountries' => Employee::PHONE_COUNTRIES
         ]);
     }
 
