@@ -22,9 +22,16 @@ class Employee extends Model
         'employment_date'
     ];
 
-    public const UNKNOWN_USER = 0;
+    public const UNKNOWN_USER_ID = 0;
 
     public const MAXIMUM_SUBORDINATION_LEVEL = 5;
+
+    /**
+     * Supported countries in ISO 3166-1 alpha-2 compliant format.
+     */
+    public const PHONE_COUNTRIES = ['UA'];
+    
+    public const PHONE_FORMAT = 'international';
 
     public function position(): BelongsTo
     {
@@ -61,7 +68,7 @@ class Employee extends Model
     }
 
     /**
-     * @param string|null $headId
+     * @param string|null $headName
      */
     public function updateHeadOrMakeRoot(string $headName = null)
     {

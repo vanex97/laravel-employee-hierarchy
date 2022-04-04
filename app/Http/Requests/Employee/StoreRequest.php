@@ -6,7 +6,9 @@ use App\Models\Employee;
 use App\Rules\SubordinationLevel;
 use App\Rules\UniqueFormatPhone;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Unique;
+use Propaganistas\LaravelPhone\Rules\Phone;
 
 class StoreRequest extends FormRequest
 {
@@ -32,8 +34,13 @@ class StoreRequest extends FormRequest
             'employment_date' => ['required', 'date_format:d/m/y', 'after_or_equal:01/01/01'],
             'phone_number' => [
                 'required',
-                'phone:UA',
-                new UniqueFormatPhone('employees', 'UA', 'international')
+                Rule::phone()->country(Employee::PHONE_COUNTRIES),
+                new UniqueFormatPhone(
+                    'employees',
+                    Employee::PHONE_COUNTRIES,
+                    Employee::PHONE_FORMAT,
+                    $this->employee->id
+                )
             ],
             'email' => ['required', 'email', 'unique:employees'],
             'salary' => ['required', 'numeric', 'min:0', 'max:500000'],

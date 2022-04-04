@@ -37,7 +37,11 @@ class EmployeeObserver
     {
         if ($employee->isDirty('phone_number')) {
             $employee->phone_number =
-                phone($employee->phone_number, 'UA', 'international');
+                phone(
+                    $employee->phone_number,
+                    Employee::PHONE_COUNTRIES,
+                    Employee::PHONE_FORMAT
+                );
         }
     }
 
@@ -46,7 +50,7 @@ class EmployeeObserver
      */
     protected function setCreatedAdmin(Employee $employee)
     {
-        $employee->admin_created_id = auth()->user()->id ?? Employee::UNKNOWN_USER;
+        $employee->admin_created_id = auth()->user()->id ?? Employee::UNKNOWN_USER_ID;
         $this->setUpdatedAdmin($employee);
     }
 
@@ -55,7 +59,7 @@ class EmployeeObserver
      */
     protected function setUpdatedAdmin(Employee $employee)
     {
-        $employee->admin_updated_id = auth()->user()->id ?? Employee::UNKNOWN_USER;
+        $employee->admin_updated_id = auth()->user()->id ?? Employee::UNKNOWN_USER_ID;
     }
 
 }

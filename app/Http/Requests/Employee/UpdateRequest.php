@@ -7,6 +7,7 @@ use App\Rules\SubordinationLevel;
 use App\Rules\UniqueFormatPhone;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Propaganistas\LaravelPhone\Validation\Phone;
 
 class UpdateRequest extends FormRequest
 {
@@ -37,11 +38,11 @@ class UpdateRequest extends FormRequest
             'employment_date' => ['required', 'date_format:d/m/y', 'after_or_equal:01/01/01'],
             'phone_number' => [
                 'required',
-                'phone:UA',
+                Rule::phone()->country(Employee::PHONE_COUNTRIES),
                 new UniqueFormatPhone(
                     'employees',
-                    'UA',
-                    'international',
+                    Employee::PHONE_COUNTRIES,
+                    Employee::PHONE_FORMAT,
                     $this->employee->id
                 )
             ],
