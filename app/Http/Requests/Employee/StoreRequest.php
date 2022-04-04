@@ -38,8 +38,7 @@ class StoreRequest extends FormRequest
                 new UniqueFormatPhone(
                     'employees',
                     Employee::PHONE_COUNTRIES,
-                    Employee::PHONE_FORMAT,
-                    $this->employee->id
+                    Employee::PHONE_FORMAT
                 )
             ],
             'email' => ['required', 'email', 'unique:employees'],
