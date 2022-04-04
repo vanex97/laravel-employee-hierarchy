@@ -91,7 +91,7 @@ class EmployeeController extends Controller
             ]);
         }
 
-        if ($request->has('head')) {
+        if ($request->has('head') && $request->head !== ($employee->parent->name ?? null)) {
             $employee->updateHeadOrMakeRoot($request->head);
         }
         $employee->update($request->except(['photo', 'head']));

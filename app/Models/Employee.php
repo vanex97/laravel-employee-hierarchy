@@ -61,12 +61,12 @@ class Employee extends Model
     }
 
     /**
-     * @param int|null $headId
+     * @param string|null $headId
      */
-    public function updateHeadOrMakeRoot(int $headId = null)
+    public function updateHeadOrMakeRoot(string $headName = null)
     {
-        if ($headId) {
-            $this->appendToNode(Employee::where('name', $headId)->first());
+        if ($headName) {
+            $this->appendToNode(Employee::where('name', $headName)->first());
         } else {
             $this->makeRoot();
         }
