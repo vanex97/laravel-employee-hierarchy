@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\PositionDataTable;
+use App\Http\Requests\Position\DestroyRequest;
 use App\Http\Requests\Position\StoreRequest;
 use App\Http\Requests\Position\UpdateRequest;
 use App\Models\Position;
@@ -55,8 +56,13 @@ class PositionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Position $position)
+    public function destroy(Position $position, DestroyRequest $request)
     {
+        // TODO: !!! FIX autocomplete!! ввод в поле и исключение удаляемой модели
+        foreach ($position->employees as $employee) {
+            $employee->position_id = $request->new_position_id;
+            $employee->save();
+        }
         $position->delete();
         return redirect(route('positions.index'));
     }

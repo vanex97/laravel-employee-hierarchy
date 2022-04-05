@@ -45,7 +45,11 @@ Route::prefix('positions')->group(function () {
         Route::post('autocomplete', [PositionController::class, 'autocomplete'])
             ->name('positions.autocomplete');
 
+        Route::delete('{position}', [PositionController::class, 'destroy'])
+            ->name('positions.destroy');
+
         Route::resource('', PositionController::class)
+            ->except('destroy')
             ->parameter('', 'position')
             ->names('positions');
     });

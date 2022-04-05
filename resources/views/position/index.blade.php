@@ -8,7 +8,7 @@
         <a class="btn btn-primary" href="{{ route('positions.create') }}">Add position</a>
 
         <!-- Modal -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="deleteModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -19,13 +19,27 @@
                     </div>
                     <div class="modal-body">
                         Are you sure you want to remove position <span id="position-name-modal"></span>?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                         <form id="delete-form" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Remove</button>
+                            <div class="form-group mt-2">
+                                    <label>New position for employees</label>
+                                    <select id="position-select"
+                                            class="form-control @error('position_id') is-invalid @enderror"
+                                            name="new_position_id"
+                                            url="{{ route('positions.autocomplete') }}"
+                                            required>
+                                        @if(old('position_id'))
+                                            <option value="{{ old('position_id') }}">
+                                                {{ \App\Models\Position::find(old('position_id'))->name }}
+                                            </option>
+                                        @endif
+                                    </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-danger">Remove</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -53,6 +67,7 @@
 
 @section('js')
     <script src="{{ mix('js/admin.js') }}"></script>
+    <script src="{{ mix('js/employeeForm.js') }}"></script>
     <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
     {{$dataTable->scripts()}}
     <script>
