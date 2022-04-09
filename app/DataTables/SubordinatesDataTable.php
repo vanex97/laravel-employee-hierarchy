@@ -85,7 +85,8 @@ class SubordinatesDataTable extends DataTable
             ->addTableClass([' table-striped', 'compact']) //compact nowrap w-100
             ->lengthMenu()
             ->autoWidth(false)
-            ->responsive(true);
+            ->responsive(true)
+            ->ajax(route('employees.show', $this->head));
     }
 
     /**

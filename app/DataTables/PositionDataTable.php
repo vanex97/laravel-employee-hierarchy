@@ -67,7 +67,8 @@ class PositionDataTable extends DataTable
             ->addTableClass([' table-striped', 'compact'])
             ->lengthMenu()
             ->autoWidth(false)
-            ->responsive(true);
+            ->responsive(true)
+            ->ajax(route('positions.index'));
     }
 
     /**

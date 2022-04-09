@@ -10,6 +10,8 @@ use Yajra\DataTables\Services\DataTable;
 
 class EmployeeDataTable extends DataTable
 {
+
+
     /**
      * Build DataTable class.
      *
@@ -92,7 +94,8 @@ class EmployeeDataTable extends DataTable
                     ->addTableClass([' table-striped', 'compact']) //compact nowrap w-100
                     ->lengthMenu()
                     ->autoWidth(false)
-                    ->responsive(true);
+                    ->responsive(true)
+                    ->ajax(route('employees.index'));
     }
 
     /**
@@ -131,4 +134,6 @@ class EmployeeDataTable extends DataTable
     {
         return 'Employee_' . date('YmdHis');
     }
+
+
 }
