@@ -19,8 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-
-Route::redirect('/', '/employees');
+Route::redirect('/', '/hierarchy');
 
 Route::prefix('employees')->group(function() {
     Route::middleware('auth')->group(function() {
@@ -56,13 +55,16 @@ Route::prefix('positions')->group(function () {
 });
 
 Route::prefix('hierarchy')->group(function() {
-    Route::get('', [EmployeeTreeController::class, 'index'])
-        ->name('hierarchy.index');
 
-    Route::get('{root}', [EmployeeTreeController::class, 'show'])
-        ->name('hierarchy.show');
+    Route::middleware('auth')->group(function() {
+        Route::get('', [EmployeeTreeController::class, 'index'])
+            ->name('hierarchy.index');
 
-    Route::post('{root}', [EmployeeTreeController::class, 'getData'])
-        ->name('hierarchy.data');
+        Route::get('{root}', [EmployeeTreeController::class, 'show'])
+            ->name('hierarchy.show');
+
+        Route::post('{root}', [EmployeeTreeController::class, 'getData'])
+            ->name('hierarchy.data');
+    });
 });
 
